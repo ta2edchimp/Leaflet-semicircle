@@ -11,7 +11,7 @@ Adds simicircle functionality to L.Circle. Angles are defined like compass cours
 </table>
 
 ## Known issues
- - Not really robust yet for cases when `startAngle` is bigger than `stopAngle` (see Workarounds down this doc).
+ - Not really robust yet for cases when `startAngle` is bigger than `stopAngle` (see [Workarounds](#workarounds)).
  - Behaves differently for those cases on canvas
 
 ## Usage:
@@ -47,7 +47,7 @@ L.circle([51.5, -0.09], 500)
 
 ![Semicircles screenshot](screenshot.png)
 
-## Workarounds:
+## <a name="workarounds"></a>Workarounds:
 
 For cases when `startAngle` is bigger than `stopAngle` I propose to forget about setting these angles per `options` Object or `setStartAngle`/`setStopAngle` function, but per `setDirection`:
 ```
