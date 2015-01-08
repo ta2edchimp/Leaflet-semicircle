@@ -15,7 +15,8 @@
 		options: {
 			startAngle: 0,
 			stopAngle: 359.9999,
-			onlyArc: false
+			onlyArc: false,
+			innerRadius: 0
 		},
 
 		// make sure 0 degrees is up (North) and convert to radians.
@@ -63,11 +64,23 @@
 					ret += "A " + r + "," + r + ",0," + largeArc + ",1," + end.x + "," + end.y;
 				} else {
 				// Draw a pie slice
-					// move to center
-					ret = "M" + center.x + "," + center.y;
+					var ir = this.options.innerRadius;
+					if (isNaN(ir) || ir <= 0) {
+						// move to center
+						ret = "M" + center.x + "," + center.y;
+					} else {
+					// ... or even only part of a ring
+						ir = ir * (r / this._mRadius);
+						var startInner = this.rotated(this.startAngle(), ir),
+							endInner = this.rotated(this.stopAngle(), ir);
+						// move to inner "near-end" point
+						ret = "M" + endInner.x + "," + endInner.y;
+						// move to inner "near-start" point
+						ret += "A " + ir + "," + ir + ",0," + largeArc + ",0," + startInner.x + "," + startInner.y;
+					}
 					// lineTo point on circle startangle from center
 					ret += "L " + start.x + "," + start.y;
-					//make circle from point start - end:
+					// make circle from point start - end:
 					ret += "A " + r + "," + r + ",0," + largeArc + ",1," + end.x + "," + end.y + " z";
 				}
 
