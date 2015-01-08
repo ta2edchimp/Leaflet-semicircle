@@ -47,7 +47,7 @@ L.circle([51.5, -0.09], 500)
 
 ![Semicircles screenshot](screenshot.png)
 
-## <a name="workarounds"></a>Workarounds:
+## Workarounds:
 
 For cases when `startAngle` is bigger than `stopAngle` I propose to forget about setting these angles per `options` Object or `setStartAngle`/`setStopAngle` function, but per `setDirection`:
 ```
