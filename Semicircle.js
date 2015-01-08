@@ -14,7 +14,8 @@
 	L.Circle = L.Circle.extend({
 		options: {
 			startAngle: 0,
-			stopAngle: 359.9999
+			stopAngle: 359.9999,
+			onlyArc: false
 		},
 
 		// make sure 0 degrees is up (North) and convert to radians.
@@ -52,13 +53,23 @@
 			}
 
 			if (L.Browser.svg) {
-				var largeArc = (this.options.stopAngle - this.options.startAngle >= 180) ? '1' : '0';
-				//move to center
-				var ret = "M" + center.x + "," + center.y;
-				//lineTo point on circle startangle from center
-				ret += "L " + start.x + "," + start.y;
-				//make circle from point start - end:
-				ret += "A " + r + "," + r + ",0," + largeArc + ",1," + end.x + "," + end.y + " z";
+				var largeArc = (this.options.stopAngle - this.options.startAngle >= 180) ? '1' : '0',
+					ret = "";
+				// Draw only outer arc, not a "pie slice"
+				if (this.options.onlyArc == true) {
+					// move to starting point
+					ret = "M" + start.x + "," + start.y;
+					// make arc from starting point to end
+					ret += "A " + r + "," + r + ",0," + largeArc + ",1," + end.x + "," + end.y;
+				} else {
+				// Draw a pie slice
+					// move to center
+					ret = "M" + center.x + "," + center.y;
+					// lineTo point on circle startangle from center
+					ret += "L " + start.x + "," + start.y;
+					//make circle from point start - end:
+					ret += "A " + r + "," + r + ",0," + largeArc + ",1," + end.x + "," + end.y + " z";
+				}
 
 				return ret;
 			} else {
